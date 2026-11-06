@@ -7,7 +7,7 @@ mod tests {
     use super::add;
 
     #[test]
-    fn adds_two_numbers() {
-        assert_eq!(add(2, 3), 5);
+    fn basic_addition() {
+        assert_eq!(add(2, 2), 4);
     }
 }

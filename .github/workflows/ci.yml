@@ -2,12 +2,16 @@ name: Rust CI
 
 on:
   push:
+    branches: [develop, master, main, "feature/**"]
   pull_request:
+    branches: [develop, master, main]
 
 jobs:
   build:
+    name: build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
@@ -17,8 +21,18 @@ jobs:
 
       - name: Run CI script on Windows
         if: runner.os == 'Windows'
-        run: .\ci.bat
+        shell: cmd
+        run: call ci.bat
 
       - name: Run CI script on Linux and macOS
         if: runner.os != 'Windows'
         run: bash ./ci.sh
+
+      - name: Upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-${{ matrix.os }}
+          path: |
+            target/debug/hello
+            target/debug/hello.exe
+          if-no-files-found: error

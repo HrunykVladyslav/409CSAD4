@@ -1,1 +1,14 @@
+# Build output (Cargo)
 target/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+*.pem
+*.key
