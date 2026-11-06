@@ -1,14 +1,20 @@
 ---
-description: Створює базовий Rust-проєкт
+description: Створює базовий Rust Hello World проєкт (skill project-scaffold)
+agent: Build Engineer
 ---
 # Передумови
-Наявний Git-репозиторій та правильний `.gitignore`.
+`git-init` виконано успішно: є Git-репозиторій і `.gitignore` з `target/`.
 
 # Дії
-Використай skill `project-scaffold`, щоб створити структуру проєкту мовою Rust (через Cargo). Не перезаписуй наявні файли без потреби.
+Застосуй skill `.github/skills/project-scaffold/SKILL.md` з входом `language: rust`, `project_name: hello_world`, `bin_name: hello`.
+Наявні файли, що вже відповідають вимогам, не змінюй.
 
 # Очікувані файли
-`Cargo.toml`, `src/main.rs`.
+`Cargo.toml`, `src/main.rs`, `README.md` (розділ запуску).
 
-# Дії при помилці
-Якщо файли не вдалося створити, виведи помилку.
+# Команди перевірки
+- `cargo check`
+- `cargo run` → `Hello, world!`
+
+# Повідомлення про помилку
+`FAIL create-project: <вивід cargo>`. Далі не продовжуй.

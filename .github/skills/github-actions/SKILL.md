@@ -1,21 +1,41 @@
-# Назва: github-actions
+---
+name: github-actions
+description: Створення .github/workflows/ci.yml з matrix Windows/Linux/macOS, що лише викликає ci.sh / ci.bat і зберігає виконуваний файл як артефакт. Використовувати в команді create-actions.
+---
+# Skill: github-actions
 
 ## Коли застосовувати
-Для створення CI/CD пайплайну у GitHub Actions, який перевірятиме збірку на різних ОС.
+Коли існують `ci.sh` і `ci.bat`, а CI workflow ще немає або він неповний (команда `create-actions`).
 
 ## Вхідні дані
-Наявні скрипти складання `ci.sh` та `ci.bat`.
+- наявні `ci.sh`, `ci.bat`;
+- цільові гілки: `develop`, `master`, `main`;
+- назва виконуваного файлу: `hello`.
+
+## Приклад входу
+```
+scripts: ci.sh, ci.bat
+branches: develop, master, main
+bin: hello
+```
+
+## Кроки
+Створити `.github/workflows/ci.yml`, який містить:
+1. Тригери `push` (develop, master, main, feature/**) і `pull_request` (develop, master, main).
+2. Одну job `build` зі `strategy.matrix.os: [ubuntu-latest, windows-latest, macos-latest]`.
+3. Крок `actions/checkout@v4`.
+4. Windows: `call ci.bat` (`shell: cmd`).
+5. Linux/macOS: `bash ./ci.sh`.
+6. `actions/upload-artifact@v4` з `target/debug/hello` і `target/debug/hello.exe`, назва `hello-${{ matrix.os }}`.
+Workflow не повинен сам викликати `cargo` — тільки CI-скрипти. Секрети не використовуються.
 
 ## Очікуваний результат
-Створено файл `.github/workflows/ci.yml`, який містить:
-1. Тригер на події `push` та `pull_request`.
-2. Одну job (наприклад, `build`) зі стратегією `matrix` для `ubuntu-latest`, `windows-latest` та `macos-latest`.
-3. Крок `actions/checkout@v4`.
-4. Крок запуску скрипта `ci.bat` (якщо ОС Windows).
-5. Крок запуску скрипта `bash ./ci.sh` (якщо ОС Linux або macOS).
+`.github/workflows/ci.yml`.
 
 ## Як перевірити
-Перевірити валідність YAML-синтаксису та наявність необхідних кроків (без фактичного запуску).
+- YAML коректний (наприклад, `python -c "import yaml; yaml.safe_load(open('.github/workflows/ci.yml'))"`).
+- У matrix є всі три ОС, є кроки checkout, запуску скриптів і upload-artifact.
+- Після push у вкладці Actions три job мають статус Success, а в розділі Artifacts є три архіви.
 
-## Дії при помилці
-Повідомити про відсутність потрібних конфігурацій і зупинити процес.
+## Типовий сценарій помилки
+Job на Windows падає з «ci.bat is not recognized» — крок запущено не з кореня репозиторію або в іншій оболонці. Дія: використати `shell: cmd` і `call ci.bat`. Якщо артефакт не знайдено (`if-no-files-found: error`) — перевірити `[[bin]] name = "hello"` у `Cargo.toml`.

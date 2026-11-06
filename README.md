@@ -1,13 +1,33 @@
 # Лабораторна робота №1: AI-агент для автоматизації розробки (Rust)
 
-Виконав: [Груник Владислав Романович], група [КІ - 409]  
-Варіант: 4 (Rust / Cargo / cargo test)
+**Виконав:** Груник Владислав Романович, група КІ-409
+**Варіант:** 4 — Rust / Cargo / cargo test
 
 ## Опис проєкту
-Цей репозиторій містить AI-агента (Build Engineer), який автоматично генерує кросплатформний проєкт "Hello World" мовою Rust, налаштовує систему складання Cargo, юніт-тести та CI/CD пайплайн у GitHub Actions для Windows, Linux та macOS.
+Репозиторій містить AI-агента **Build Engineer** (GitHub Copilot, VS Code), який генерує кросплатформний Rust-проєкт Hello World, налаштовує складання через Cargo, юніт-тест (`cargo test`), локальні скрипти `ci.sh` / `ci.bat` і GitHub Actions для Windows, Linux та macOS.
 
-## Як запустити агента
-1. Переконайтеся, що ви перебуваєте у гілці `feature/hello-world` (або створіть її від `develop`).
-2. Відкрийте GitHub Copilot Chat у VS Code (сесія типу Local).
-3. Виконайте команду оркестратора: `/init`.
-4. Агент послідовно виконає перевірку Git, створення проєкту, налаштування збірки, GitHub Actions та фінальну перевірку.
+- `develop` — лише агент (manifest, skills, commands) та документація.
+- `feature/hello-world` — результат запуску агента: код, тести, скрипти, CI.
+
+## Запуск агента
+1. Створіть гілку від `develop`: `git checkout develop && git checkout -b feature/hello-world`.
+2. Відкрийте теку в VS Code, увійдіть у GitHub Copilot, відкрийте Copilot Chat.
+3. Оберіть агента **Build Engineer** і виконайте `/init` (або прикріпіть `#init.prompt.md`).
+4. Окремі кроки: `/git-init`, `/create-project`, `/create-build`, `/create-actions`, `/check`.
+
+## Складання та запуск проєкту
+| ОС | Повна перевірка | Запуск програми |
+|----|-----------------|-----------------|
+| Windows | `.\ci.bat` | `target\debug\hello.exe` або `cargo run` |
+| Linux / macOS | `bash ./ci.sh` | `./target/debug/hello` або `cargo run` |
+
+Очікуваний вивід програми:
+```
+Hello, world!
+2 + 2 = 4
+```
+
+## Документація
+- [docs/architecture.md](docs/architecture.md) — архітектура агента
+- [docs/usage.md](docs/usage.md) — точні команди запуску та перевірки
+- [docs/ai-log.md](docs/ai-log.md) — журнал взаємодії з AI
