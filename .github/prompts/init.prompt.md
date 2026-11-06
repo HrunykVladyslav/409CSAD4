@@ -1,4 +1,5 @@
 ---
+name: init-project
 description: Оркестратор. Послідовно запускає git-init, create-project, create-build, create-actions і check
 agent: Build Engineer
 ---

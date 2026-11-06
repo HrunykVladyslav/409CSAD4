@@ -12,7 +12,7 @@
 ## Запуск агента
 1. Створіть гілку від `develop`: `git checkout develop && git checkout -b feature/hello-world`.
 2. Відкрийте теку в VS Code, увійдіть у GitHub Copilot, відкрийте Copilot Chat.
-3. Оберіть агента **Build Engineer** і виконайте `/init` (або прикріпіть `#init.prompt.md`).
+3. Оберіть агента **Build Engineer** і виконайте `/init-project` (або прикріпіть `#init.prompt.md`).
 4. Окремі кроки: `/git-init`, `/create-project`, `/create-build`, `/create-actions`, `/check`.
 
 ## Складання та запуск проєкту
