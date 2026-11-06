@@ -15,7 +15,7 @@ code .
 ```
 У Copilot Chat: оберіть агента **Build Engineer** і виконайте:
 ```
-/init
+/init-project
 ```
 Якщо Copilot не підхоплює команду — прикріпіть файл явно: `#init.prompt.md`.
 
